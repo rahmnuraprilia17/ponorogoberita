@@ -18,7 +18,8 @@ class CreateBlogsTable extends Migration
             $table->string('image');
             $table->string('title');
             $table->text('content');
-            $table->text('created_at');
+            $table->text('kutipan');
+            $table->text('waktupost');
             $table->timestamps();
         });
     }

@@ -63,7 +63,8 @@
                 <div class="carousel-inner">
                     @foreach ($slides as $key => $slide)
                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }} ">
-                        <img src="{{ Storage::url('public/slides/').$slide->image }}" class="d-block w-100" alt="...">
+                        <!-- <img src="{{ Storage::url('public/slides/').$slide->image }}" class="d-block w-100" alt="..."> -->
+                        <img src="/gambar/{{$slide->image}}" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>{{ $slide->title }}</h5>
                             <p>{!! $slide->content !!}</p>
@@ -112,7 +113,9 @@
             <div class="row text-center">
 
                 <div class="col-lg-6 order-1 order-lg-2">
-                    <img class="img-fluid" src="{{ Storage::url('public/trendings/').$trending->image }}" style="width: 120%;" style="height: 150%;" alt="..." />
+                    <!-- <img class="img-fluid" src="{{ Storage::url('public/trendings/').$trending->image }}" style="width: 120%;" style="height: 150%;" alt="..." /> -->
+                    <img class="img-fluid" src="/gambar/{{$trending->image}}" class="rounded" style="width: 120%;" style="height: 150%;" alt="..." />
+
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1">
                     <h4 class="subheading">{{ $trending->title }}</h4>
@@ -161,7 +164,8 @@
 
                                 <div class="col">
                                     <h4 class="subheading" style="text-align: center;">{{ $galeri->title }}</h4>
-                                    <img src="{{ Storage::url('public/galeris/').$galeri->image }}" width="100%" height="250px">
+                                    <!-- <img src="{{ Storage::url('public/galeris/').$galeri->image }}" width="100%" height="250px"> -->
+                                    <img src="/gambar/{{$galeri->image}}" class="rounded" width="100%" height="250px">
                                 </div>
                             </div>
                         </div>
@@ -182,7 +186,8 @@
             <ul class="timeline">
                 @foreach ($blogs as $blog)
                 <li>
-                    <div class="timeline-image"><img src="{{ Storage::url('public/blogs/').$blog->image }}" style="width: 300px;" alt="..." /></div>
+                    <div class="timeline-image"><img src="/gambar/{{$blog->image}}" class="rounded" style="width: 300px;" alt="..." /></div>
+                    <!-- <div class="timeline-image"><img src="{{ Storage::url('public/blogs/').$blog->image }}" style="width: 300px;" alt="..." /></div> -->
                     <div class="timeline-panel">
                         <br>
                         <br>

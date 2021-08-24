@@ -265,7 +265,8 @@
                                                                     <tr>
                                                                         <td>{{ $no++ }}</td>
                                                                         <td class="text-center">
-                                                                            <img src="{{ Storage::url('public/slides/').$slide->image }}" class="rounded" style="width: 150px">
+                                                                            <!-- <img src="{{ Storage::url('public/slides/').$slide->image }}" class="rounded" style="width: 150px"> -->
+                                                                            <img src="/gambar/{{$slide->image}}" class="rounded" style="width: 150px">
                                                                         </td>
                                                                         <td>{{ $slide->title }}</td>
                                                                         <td>{!! $slide->content !!}</td>

@@ -19,6 +19,7 @@ class CreateTrendingsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->text('kutipan');
+            $table->text('waktupost');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Slide;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class SlideController extends Controller
 {
@@ -52,11 +52,14 @@ class SlideController extends Controller
         ]);
 
         //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/slides', $image->hashName());
+        // $image = $request->file('image');
+        // $image->storeAs('public/slides', $image->hashName());
+
+        $image = time() . '-' . $request->image->getClientOriginalName();
+        $request->image->move('gambar', $image);
 
         $slide = Slide::create([
-            'image'     => $image->hashName(),
+            'image'     => $image,
             'title'     => $request->title,
             'content'   => $request->content
         ]);
@@ -108,14 +111,19 @@ class SlideController extends Controller
         } else {
 
             //hapus old image
-            Storage::disk('local')->delete('public/slides/' . $slide->image);
-
+            // Storage::disk('local')->delete('public/slides/' . $slide->image);
+            File::delete('gambar/' . $slide->image);
             //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/slides', $image->hashName());
+            // $image = $request->file('image');
+            // $image->storeAs('public/slides', $image->hashName());
+
+            $image = time() . '-' . $request->image->getClientOriginalName();
+            $request->image->move('gambar', $image);
+
+            $slide['image'] = $image;
 
             $slide->update([
-                'image'     => $image->hashName(),
+                // 'image'     => $image->hashName(),
                 'title'     => $request->title,
                 'content'   => $request->content
             ]);
@@ -139,7 +147,7 @@ class SlideController extends Controller
     public function destroy($id)
     {
         $slide = Slide::findOrFail($id);
-        Storage::disk('local')->delete('public/slides/' . $slide->image);
+        File::delete('gambar/' . $slide->image);
         $slide->delete();
 
         if ($slide) {

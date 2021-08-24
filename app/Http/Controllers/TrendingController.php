@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trending;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class TrendingController extends Controller
 {
@@ -50,18 +50,24 @@ class TrendingController extends Controller
             'image'     => 'required|image|mimes:png,jpg,jpeg',
             'title'     => 'required',
             'content'   => 'required',
-            'kutipan'   => 'required'
+            'kutipan'   => 'required',
+            'waktupost'   => 'required'
         ]);
 
         //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/trendings', $image->hashName());
+        // $image = $request->file('image');
+        // $image->storeAs('public/trendings', $image->hashName());
+
+        $image = time() . '-' . $request->image->getClientOriginalName();
+        $request->image->move('gambar', $image);
+
 
         $trending = Trending::create([
-            'image'     => $image->hashName(),
+            'image'     => $image,
             'title'     => $request->title,
             'content'   => $request->content,
-            'kutipan'   => $request->kutipan
+            'kutipan'   => $request->kutipan,
+            'waktupost'   => $request->waktupost
         ]);
 
         if ($trending) {
@@ -97,7 +103,8 @@ class TrendingController extends Controller
         $this->validate($request, [
             'title'     => 'required',
             'content'   => 'required',
-            'kutipan'   => 'required'
+            'kutipan'   => 'required',
+            'waktupost'   => 'required'
         ]);
 
         //get data Blog by ID
@@ -108,22 +115,27 @@ class TrendingController extends Controller
             $trending->update([
                 'title'     => $request->title,
                 'content'   => $request->content,
-                'kutipan'   => $request->kutipan
+                'kutipan'   => $request->kutipan,
+                'waktupost'   => $request->waktupost
             ]);
         } else {
 
             //hapus old image
-            Storage::disk('local')->delete('public/trendings/' . $trending->image);
-
+            // Storage::disk('local')->delete('public/trendings/' . $trending->image);
+            File::delete('gambar/' . $trending->image);
             //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/trendings', $image->hashName());
+
+            $image = time() . '-' . $request->image->getClientOriginalName();
+            $request->image->move('gambar', $image);
+
+            $trending['image'] = $image;
 
             $trending->update([
-                'image'     => $image->hashName(),
+                // 'image'     => $image->hashName(),
                 'title'     => $request->title,
                 'content'   => $request->content,
-                'kutipan'   => $request->kutipan
+                'kutipan'   => $request->kutipan,
+                'waktupost'   => $request->waktupost
             ]);
         }
 
@@ -145,7 +157,7 @@ class TrendingController extends Controller
     public function destroy($id)
     {
         $trending = Trending::findOrFail($id);
-        Storage::disk('local')->delete('public/trendings/' . $trending->image);
+        File::delete('gambar/' . $trending->image);
         $trending->delete();
 
         if ($trending) {

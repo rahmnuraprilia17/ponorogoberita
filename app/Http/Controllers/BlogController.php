@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class BlogController extends Controller
 {
@@ -50,18 +50,24 @@ class BlogController extends Controller
             'image'     => 'required|image|mimes:png,jpg,jpeg',
             'title'     => 'required',
             'content'   => 'required',
-            'kutipan'   => 'required'
+            'kutipan'   => 'required',
+            'waktupost'   => 'required'
         ]);
 
         //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/blogs', $image->hashName());
+        // $image = $request->file('image');
+        // $image->storeAs('public/blogs', $image->hashName());
+
+        $image = time() . '-' . $request->image->getClientOriginalName();
+        $request->image->move('gambar', $image);
+
 
         $blog = Blog::create([
-            'image'     => $image->hashName(),
+            'image'     => $image,
             'title'     => $request->title,
             'content'   => $request->content,
-            'kutipan'   => $request->kutipan
+            'kutipan'   => $request->kutipan,
+            'waktupost'   => $request->waktupost
         ]);
 
         if ($blog) {
@@ -97,7 +103,8 @@ class BlogController extends Controller
         $this->validate($request, [
             'title'     => 'required',
             'content'   => 'required',
-            'kutipan'   => 'required'
+            'kutipan'   => 'required',
+            'waktupost'   => 'required'
         ]);
 
         //get data Blog by ID
@@ -108,22 +115,29 @@ class BlogController extends Controller
             $blog->update([
                 'title'     => $request->title,
                 'content'   => $request->content,
-                'kutipan'   => $request->kutipan
+                'kutipan'   => $request->kutipan,
+                'waktupost'   => $request->waktupost
             ]);
         } else {
 
             //hapus old image
-            Storage::disk('local')->delete('public/blogs/' . $blog->image);
-
+            // Storage::disk('local')->delete('public/blogs/' . $blog->image);
+            File::delete('gambar/' . $blog->image);
             //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/blogs', $image->hashName());
+            // $image = $request->file('image');
+            // $image->storeAs('public/blogs', $image->hashName());
+
+            $image = time() . '-' . $request->image->getClientOriginalName();
+            $request->image->move('gambar', $image);
+
+            $blog['image'] = $image;
 
             $blog->update([
-                'image'     => $image->hashName(),
+                // 'image'     => $image->hashName(),
                 'title'     => $request->title,
                 'content'   => $request->content,
-                'kutipan'   => $request->kutipan
+                'kutipan'   => $request->kutipan,
+                'waktupost'   => $request->waktupost
             ]);
         }
 
@@ -145,7 +159,7 @@ class BlogController extends Controller
     public function destroy($id)
     {
         $blog = Blog::findOrFail($id);
-        Storage::disk('local')->delete('public/blogs/' . $blog->image);
+        File::delete('gambar/' . $blog->image);
         $blog->delete();
 
         if ($blog) {

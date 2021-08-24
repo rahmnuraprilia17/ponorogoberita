@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galeri;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class GaleriController extends Controller
 {
@@ -52,11 +52,14 @@ class GaleriController extends Controller
         ]);
 
         //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/galeris', $image->hashName());
+        // $image = $request->file('image');
+        // $image->storeAs('public/galeris', $image->hashName());
+
+        $image = time() . '-' . $request->image->getClientOriginalName();
+        $request->image->move('gambar', $image);
 
         $galeri = Galeri::create([
-            'image'     => $image->hashName(),
+            'image'     => $image,
             'title'     => $request->title
         ]);
 
@@ -105,14 +108,19 @@ class GaleriController extends Controller
         } else {
 
             //hapus old image
-            Storage::disk('local')->delete('public/galeris/' . $galeri->image);
-
+            // Storage::disk('local')->delete('public/galeris/' . $galeri->image);
+            File::delete('gambar/' . $galeri->image);
             //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/galeris', $image->hashName());
+            // $image = $request->file('image');
+            // $image->storeAs('public/galeris', $image->hashName());
+
+            $image = time() . '-' . $request->image->getClientOriginalName();
+            $request->image->move('gambar', $image);
+
+            $galeri['image'] = $image;
 
             $galeri->update([
-                'image'     => $image->hashName(),
+                // 'image'     => $image->hashName(),
                 'title'     => $request->title
             ]);
         }
@@ -135,7 +143,7 @@ class GaleriController extends Controller
     public function destroy($id)
     {
         $galeri = Galeri::findOrFail($id);
-        Storage::disk('local')->delete('public/galeris/' . $galeri->image);
+        File::delete('gambar/' . $galeri->image);
         $galeri->delete();
 
         if ($galeri) {

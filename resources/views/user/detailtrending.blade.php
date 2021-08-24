@@ -56,11 +56,13 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Detail Trending</h2>
+                <p class="text-muted">{{ $trendings->waktupost }}</p>
             </div>
             <br>
             <div class="row text-center">
                 <div class="col-lg-6 order-1 order-lg-0">
-                    <img class="img-fluid" src="{{ Storage::url('public/trendings/').$trendings->image }}" style="width: 120%;" style="height: 150%;" alt="..." />
+                    <!-- <img class="img-fluid" src="{{ Storage::url('public/trendings/').$trendings->image }}" style="width: 120%;" style="height: 150%;" alt="..." /> -->
+                    <img class="img-fluid" src="/gambar/{{$trendings->image}}" class="rounded" style="width: 120%;" style="height: 150%;" alt="..." />
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1">
                     <h4 class="subheading">{{ $trendings->title }}</h4>

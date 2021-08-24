@@ -287,6 +287,20 @@
                                                                     </div>
                                                                     @enderror
                                                                 </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="font-weight-bold">WAKTU POST</label>
+                                                                    <textarea class="form-control @error('waktupost') is-invalid @enderror" name="waktupost" rows="5" placeholder="Masukkan Waktu Post Trending">{{ old('waktupost', $trending->waktupost) }}</textarea>
+
+                                                                    <!-- error message untuk content -->
+                                                                    @error('waktupost')
+                                                                    <div class="alert alert-danger mt-2">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                    @enderror
+                                                                </div>
+
+
                                                                 <button type="submit" class="btn btn-md btn-primary">UPDATE</button>
                                                                 <button type="reset" class="btn btn-md btn-warning">RESET</button>
 

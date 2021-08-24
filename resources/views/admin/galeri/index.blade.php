@@ -269,7 +269,8 @@
                                                                         <td>{{ $no++ }}</td>
 
                                                                         <td class="text-center">
-                                                                            <img src="{{ Storage::url('public/galeris/').$galeri->image }}" class="rounded" style="width: 150px">
+                                                                            <!-- <img src="{{ Storage::url('public/galeris/').$galeri->image }}" class="rounded" style="width: 150px"> -->
+                                                                            <img src="/gambar/{{$galeri->image}}" class="rounded" style="width: 150px">
                                                                         </td>
                                                                         <td>{{ $galeri->title }}</td>
                                                                         <td class="text-center">

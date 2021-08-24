@@ -257,6 +257,7 @@
                                                                         <th scope="col">JUDUL TRENDING</th>
                                                                         <th scope="col">ISI TRENDING</th>
                                                                         <th scope="col">KUTIPAN</th>
+                                                                        <th scope="col">WAKTU POST</th>
                                                                         <th scope="col">AKSI</th>
                                                                     </tr>
                                                                 </thead>
@@ -266,11 +267,12 @@
                                                                     <tr>
                                                                         <td>{{ $no++ }}</td>
                                                                         <td class="text-center">
-                                                                            <img src="{{ Storage::url('public/trendings/').$trending->image }}" class="rounded" style="width: 150px">
+                                                                            <img src="/gambar/{{$trending->image}}" class="rounded" style="width: 150px">
                                                                         </td>
                                                                         <td>{{ $trending->title }}</td>
                                                                         <td>{!! $trending->content !!}</td>
                                                                         <td>{!! $trending->kutipan !!}</td>
+                                                                        <td>{!! $trending->waktupost !!}</td>
                                                                         <td class="text-center">
                                                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('trending.destroy', $trending->id) }}" method="POST">
                                                                                 <a href="{{ route('trending.edit', $trending->id) }}" class="btn btn-sm btn-primary">EDIT</a>

@@ -257,6 +257,7 @@
                                                                         <th scope="col">JUDUL BLOG BERITA</th>
                                                                         <th scope="col">ISI BLOG BERITA</th>
                                                                         <th scope="col">KUTIPAN</th>
+                                                                        <th scope="col">WAKTU POST</th>
                                                                         <th scope="col">AKSI</th>
                                                                     </tr>
                                                                 </thead>
@@ -266,11 +267,13 @@
                                                                     <tr>
                                                                         <td>{{ $no++ }}</td>
                                                                         <td class="text-center">
-                                                                            <img src="{{ Storage::url('public/blogs/').$blog->image }}" class="rounded" style="width: 150px">
+                                                                            <!-- <img src="{{ Storage::url('public/blogs/').$blog->image }}" class="rounded" style="width: 150px"> -->
+                                                                            <img src="/gambar/{{$blog->image}}" class="rounded" style="width: 150px">
                                                                         </td>
                                                                         <td>{{ $blog->title }}</td>
                                                                         <td>{!! $blog->content !!}</td>
                                                                         <td>{!! $blog->kutipan !!}</td>
+                                                                        <td>{!! $blog->waktupost !!}</td>
                                                                         <td class="text-center">
                                                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('blog.destroy', $blog->id) }}" method="POST">
                                                                                 <a href="{{ route('blog.edit', $blog->id) }}" class="btn btn-sm btn-primary">EDIT</a>
